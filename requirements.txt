@@ -1,0 +1,16 @@
+# Server 
+fastapi
+mangum
+redis-py
+huggingface-transformers
+beautifulsoup4
+requests
+pydantic
+python-dotenv
+
+# Client
+react
+vite
+three.js
+react-three-fiber
+aframe

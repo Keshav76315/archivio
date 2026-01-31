@@ -1,0 +1,30 @@
+# Netlify Configuration for Archivio
+
+[build]
+  # Frontend build command
+  command = "cd frontend && npm install && npm run build"
+  # Output directory for the frontend build
+  publish = "frontend/dist"
+  # Base directory (root of repo)
+  base = "."
+
+[build.environment]
+  # Python version for serverless functions
+  PYTHON_VERSION = "3.11"
+  NODE_VERSION = "20"
+
+# Redirect API calls to the serverless function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+# SPA fallback for frontend routing  
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  # Directory containing serverless functions
+  directory = "backend/netlify/functions"

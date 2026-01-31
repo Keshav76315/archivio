@@ -1,0 +1,78 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+frontend/dist/
+frontend/build/
+*.local
+
+# Test coverage
+coverage/
+htmlcov/
+.coverage
+.pytest_cache/
+.tox/
+
+# Netlify
+.netlify/
+
+# Secrets (NEVER commit these)
+.env
+.env.local
+.env.production
+*.pem
+*.key
+
+# Editor configs
+.editorconfig
+
+# Misc
+*.bak
+*.tmp
+*.temp

@@ -1,0 +1,30 @@
+{
+  "name": "archivio-frontend",
+  "version": "1.0.0",
+  "description": "The internet's lost archive",
+  "homepage": "https://github.com/Keshav76315/archivio#readme",
+  "bugs": {
+    "url": "https://github.com/Keshav76315/archivio/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Keshav76315/archivio.git"
+  },
+  "license": "MIT",
+  "author": "Keshav Ghai",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "a-frame": "^0.0.0",
+    "r3f": "^1.0.0",
+    "react": "^19.2.4",
+    "router": "^2.2.0",
+    "tailwind": "^4.0.0",
+    "three.js": "^0.77.1",
+    "vite": "^7.3.1",
+    "zustand": "^5.0.10"
+  }
+}
