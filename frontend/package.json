@@ -1,30 +1,43 @@
 {
   "name": "archivio-frontend",
   "version": "1.0.0",
-  "description": "The internet's lost archive",
-  "homepage": "https://github.com/Keshav76315/archivio#readme",
-  "bugs": {
-    "url": "https://github.com/Keshav76315/archivio/issues"
+  "description": "Museum of Lost Internet - Interactive 3D/AR experience",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.22.3",
+    "three": "^0.162.0",
+    "@react-three/fiber": "^8.15.19",
+    "@react-three/drei": "^9.99.7",
+    "aframe": "^1.5.0",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.1.6",
+    "tailwindcss": "^3.4.1",
+    "postcss": "^8.4.35",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "author": "Keshav Ghai",
+  "license": "MIT",
+  "homepage": "https://github.com/Keshav76315/archivio#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Keshav76315/archivio.git"
   },
-  "license": "MIT",
-  "author": "Keshav Ghai",
-  "type": "commonjs",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "a-frame": "^0.0.0",
-    "r3f": "^1.0.0",
-    "react": "^19.2.4",
-    "router": "^2.2.0",
-    "tailwind": "^4.0.0",
-    "three.js": "^0.77.1",
-    "vite": "^7.3.1",
-    "zustand": "^5.0.10"
+  "bugs": {
+    "url": "https://github.com/Keshav76315/archivio/issues"
   }
 }
