@@ -1,4 +1,4 @@
-# 🕷️ ARCHIVIO: Neo-Retro Edition
+#  ARCHIVIO
 
 **The Museum of Lost Internet**
 
