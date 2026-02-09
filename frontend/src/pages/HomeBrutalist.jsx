@@ -110,10 +110,10 @@ function HomeBrutalist() {
                 className="w-full h-6"
                 style={{
                   background:
-                    "repeating-linear-gradient(90deg, #000-0 0, #000 20px, #fff 20px, #fff 40px)",
+                    "repeating-linear-gradient(90deg, #000 0, #000 20px, #fff 20px, #fff 40px)",
                   width: "200px",
                 }}
-              />
+              />{" "}
               <span className="font-mono font-bold text-xl">2,847</span>
               <span className="font-mono text-sm text-gray-500">ARCHIVED</span>
             </div>

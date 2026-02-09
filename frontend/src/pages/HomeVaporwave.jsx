@@ -76,8 +76,8 @@ function Win95Dialog({ title, children, className = "", style = {} }) {
         >
           {title}
         </span>
-        <div className="flex gap-1">
-          <button
+        <div className="flex gap-1" aria-hidden="true">
+          <span
             className="w-4 h-4 text-xs font-bold flex items-center justify-center"
             style={{
               background: "#c0c0c0",
@@ -86,8 +86,8 @@ function Win95Dialog({ title, children, className = "", style = {} }) {
             }}
           >
             _
-          </button>
-          <button
+          </span>
+          <span
             className="w-4 h-4 text-xs font-bold flex items-center justify-center"
             style={{
               background: "#c0c0c0",
@@ -96,7 +96,7 @@ function Win95Dialog({ title, children, className = "", style = {} }) {
             }}
           >
             ×
-          </button>
+          </span>
         </div>
       </div>
       {/* Content */}
@@ -109,7 +109,7 @@ function Win95Dialog({ title, children, className = "", style = {} }) {
 function Win95Button({ children, primary, to }) {
   const ButtonContent = () => (
     <button
-      className={`px-6 py-2 text-sm font-bold ${primary ? "bg-gray-300" : "bg-gray-300"}`}
+      className={`px-6 py-2 text-sm font-bold ${primary ? "bg-indigo-200" : "bg-gray-300"}`}
       style={{
         fontFamily: "Tahoma, sans-serif",
         border: "2px solid",
@@ -323,10 +323,7 @@ function HomeVaporwave() {
         />
       </div>
 
-      {/* Custom font import */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
-      `}</style>
+      {/* Note: Audiowide font should be loaded via index.html for performance */}
     </div>
   );
 }

@@ -263,9 +263,9 @@ export const keyframes = {
     "50%": { boxShadow: "0 0 30px rgba(0, 217, 255, 0.6)" },
   },
   glowCycle: {
-    "0%, 100%": { boxShadow: "0 0 20px rgba(0, 217, 255, 0.4)" },
-    "33%": { boxShadow: "0 0 20px rgba(168, 85, 247, 0.4)" },
-    "66%": { boxShadow: "0 0 20px rgba(0, 217, 255, 0.4)" },
+    "0%, 100%": { boxShadow: "0 0 20px rgba(0, 217, 255, 0.4)" }, // cyan
+    "33%": { boxShadow: "0 0 20px rgba(168, 85, 247, 0.4)" }, // purple
+    "66%": { boxShadow: "0 0 20px rgba(245, 158, 11, 0.4)" }, // amber
   },
   float: {
     "0%, 100%": { transform: "translateY(0)" },
@@ -277,7 +277,7 @@ export const keyframes = {
   },
   scanline: {
     "0%": { transform: "translateY(-100%)" },
-    "100%": { transform: "translateY(100vh)" },
+    "100%": { transform: "translateY(100%)" }, // Use container-relative 100% instead of 100vh
   },
 };
 

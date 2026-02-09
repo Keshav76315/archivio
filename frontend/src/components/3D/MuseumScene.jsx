@@ -91,7 +91,7 @@ function Particles({ count = 500 }) {
   );
 }
 
-// Floor with grid pattern
+// Floor plane
 function Floor() {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3, 0]} receiveShadow>

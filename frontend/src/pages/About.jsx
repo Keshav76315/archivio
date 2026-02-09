@@ -1,234 +1,268 @@
 /**
- * About Page - Retro Web Style
- * -----------------------------
- * About the project with retro aesthetic
+ * About Page - ATSV Style
+ * -----------------------
+ * Bright, funky design with glitch effects, typing animations,
+ * step circles, tech pills, and credits section
  */
 
-import RetroPageWrapper from "../components/Retro/RetroPageWrapper";
+import { useState, useEffect } from "react";
 import CRTMonitor from "../components/Retro/CRTMonitor";
 
-const team = [{ name: "Keshav", role: "Creator", icon: "👨‍💻" }];
+// Typing animation hook
+function useTypingAnimation(text, speed = 50) {
+  const [displayText, setDisplayText] = useState("");
 
-const techStack = [
-  { name: "React", icon: "⚛️" },
-  { name: "Three.js", icon: "🎮" },
-  { name: "FastAPI", icon: "🐍" },
-  { name: "Redis", icon: "🔴" },
-  { name: "Archive.org", icon: "📚" },
-];
+  useEffect(() => {
+    setDisplayText("");
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        setDisplayText(text.slice(0, i + 1));
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, speed);
+    return () => clearInterval(interval);
+  }, [text, speed]);
+
+  return displayText;
+}
 
 function About() {
+  const missionText = useTypingAnimation(
+    "The early internet was a beautiful, chaotic place. GeoCities neighborhoods, MySpace profiles with auto-playing music, Flash games that defined a generation.",
+    30,
+  );
+
   return (
-    <RetroPageWrapper title="❓ ABOUT" subtitle="The story behind Archivio">
-      <div className="max-w-2xl mx-auto px-4 pb-24 space-y-8">
-        {/* Mission */}
-        <CRTMonitor title="readme.txt">
-          <div className="p-6" style={{ background: "#0a0a0a" }}>
-            <h2
-              className="text-xl mb-4 text-cyan-400"
-              style={{
-                fontFamily: "'Press Start 2P', monospace",
-                fontSize: "14px",
-              }}
-            >
-              Our Mission
-            </h2>
-            <div
-              className="text-gray-300 space-y-4"
-              style={{ fontFamily: "'VT323', monospace", fontSize: "18px" }}
-            >
-              <p>
-                The early internet was a beautiful, chaotic place. GeoCities
-                neighborhoods, MySpace profiles with auto-playing music, Flash
-                games that defined a generation.
+    <main style={{ background: "var(--bg-cream)", minHeight: "100vh" }}>
+      {/* Glitch Header Bar */}
+      <div className="glitch-bar noise-bg" />
+
+      {/* Hero Section */}
+      <section className="py-8 px-4" style={{ background: "var(--bg-cream)" }}>
+        <p
+          className="text-center text-sm tracking-widest mb-8"
+          style={{ color: "var(--outline-black)", opacity: 0.6 }}
+        >
+          THE STORY BEHIND ARCHIVIO
+        </p>
+
+        {/* CRT Monitor - Our Mission */}
+        <div className="max-w-4xl mx-auto">
+          <CRTMonitor title="mission.txt" variant="atsv">
+            <div className="p-6 md:p-8" style={{ background: "#0a0a0a" }}>
+              <h2
+                className="text-2xl md:text-3xl font-bold mb-6 typing-cursor spidey-font"
+                style={{ color: "var(--phosphor-green)" }}
+              >
+                {">"} Our Mission
+              </h2>
+
+              <p
+                className="mb-4 leading-relaxed"
+                style={{ color: "var(--phosphor-green)", opacity: 0.9 }}
+              >
+                {missionText}
               </p>
-              <p>Most of it is gone now. But not forgotten.</p>
-              <p className="text-cyan-400">
+
+              <p className="mb-4" style={{ color: "#888" }}>
+                Most of it is gone now.{" "}
+                <span
+                  className="px-2 py-1"
+                  style={{ background: "var(--accent-pink)", color: "white" }}
+                >
+                  But not forgotten.
+                </span>
+              </p>
+
+              <p style={{ color: "var(--phosphor-green)", opacity: 0.7 }}>
                 Archivio is a digital museum dedicated to preserving and
                 celebrating the lost wonders of the early web.
               </p>
             </div>
-          </div>
-        </CRTMonitor>
+          </CRTMonitor>
+        </div>
+      </section>
 
-        {/* How it works */}
-        <div
-          className="p-6 rounded-lg"
-          style={{
-            background: "rgba(0,0,0,0.6)",
-            border: "2px solid #333",
-          }}
-        >
-          <h2
-            className="text-lg mb-6 text-center text-cyan-400"
+      {/* How It Works Section */}
+      <section
+        className="py-16 px-4"
+        style={{ background: "var(--bg-cream-dark)" }}
+      >
+        <div className="max-w-4xl mx-auto">
+          <div
+            className="inline-block px-3 py-1 mb-8 text-sm font-mono"
             style={{
-              fontFamily: "'Press Start 2P', monospace",
-              fontSize: "12px",
+              background: "var(--outline-black)",
+              color: "var(--phosphor-green)",
             }}
           >
-            How It Works
-          </h2>
-          <div className="grid grid-cols-3 gap-4 text-center">
+            SYSTEM_PROCESS
+          </div>
+
+          <h2 className="section-header text-3xl mb-12">How It Works</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                step: "01",
                 icon: "🔍",
-                label: "Discover",
-                desc: "Find archived sites",
+                step: "01",
+                title: "Discover",
+                desc: "Find archived sites from the depths of the Wayback Machine",
+                color: "cyan",
               },
               {
+                icon: "🛡️",
                 step: "02",
-                icon: "🤖",
-                label: "Preserve",
-                desc: "AI-enhanced context",
+                title: "Preserve",
+                desc: "AI-enhanced content verification and asset recovery",
+                color: "magenta",
               },
               {
-                step: "03",
                 icon: "🏛️",
-                label: "Exhibit",
-                desc: "Browse in 3D museum",
+                step: "03",
+                title: "Exhibit",
+                desc: "Browse in a curated 3D museum environment",
+                color: "yellow",
               },
-            ].map((item) => (
-              <div key={item.step} className="space-y-2">
-                <div className="text-4xl">{item.icon}</div>
-                <div
-                  className="text-xs text-gray-500"
-                  style={{ fontFamily: "'VT323', monospace" }}
-                >
-                  STEP {item.step}
+            ].map((item, i) => (
+              <div
+                key={item.step}
+                className={`text-center animate-float${i > 0 ? `-delay-${i}` : ""}`}
+              >
+                <div className="step-circle mx-auto mb-4 hover-wiggle">
+                  <span className="text-3xl">{item.icon}</span>
                 </div>
-                <div
-                  className="text-cyan-400 font-bold"
-                  style={{ fontFamily: "'VT323', monospace" }}
+                <span
+                  className={`step-number step-number-${item.color} mb-2 inline-block`}
                 >
-                  {item.label}
-                </div>
-                <div className="text-xs text-gray-500">{item.desc}</div>
+                  Step {item.step}
+                </span>
+                <h3
+                  className="text-lg font-bold mt-2 spidey-font"
+                  style={{ color: "var(--outline-black)" }}
+                >
+                  {item.title}
+                </h3>
+                <p
+                  className="text-sm mt-2"
+                  style={{ color: "var(--outline-black)", opacity: 0.7 }}
+                >
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Tech stack */}
-        <div
-          className="p-6 rounded-lg"
-          style={{
-            background: "rgba(0,0,0,0.6)",
-            border: "2px solid #333",
-          }}
-        >
-          <h2
-            className="text-lg mb-4 text-center text-cyan-400"
-            style={{
-              fontFamily: "'Press Start 2P', monospace",
-              fontSize: "12px",
-            }}
-          >
+      {/* Tech Stack Section */}
+      <section className="py-16 px-4" style={{ background: "var(--bg-cream)" }}>
+        <div className="max-w-4xl mx-auto light-panel p-8">
+          <h2 className="section-header text-2xl mb-8 text-center block">
             Tech Stack
           </h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {techStack.map((tech) => (
-              <div
-                key={tech.name}
-                className="flex items-center gap-2 px-4 py-2 rounded"
-                style={{
-                  background: "#1a1a2a",
-                  border: "1px solid #333",
-                }}
-              >
-                <span className="text-xl">{tech.icon}</span>
-                <span
-                  className="text-gray-300"
-                  style={{ fontFamily: "'VT323', monospace" }}
-                >
-                  {tech.name}
-                </span>
+
+          <div className="flex flex-wrap justify-center gap-4">
+            {[
+              { name: "React", icon: "⚛️" },
+              { name: "Three.js", icon: "🎮" },
+              { name: "FastAPI", icon: "⚡" },
+              { name: "Redis", icon: "🔴" },
+              { name: "Archive.org", icon: "📚" },
+            ].map((tech) => (
+              <div key={tech.name} className="tech-pill hover-wiggle">
+                <span>{tech.icon}</span>
+                <span>{tech.name}</span>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Credits */}
-        <div
-          className="p-6 rounded-lg"
-          style={{
-            background: "rgba(0,0,0,0.6)",
-            border: "2px solid #333",
-          }}
-        >
-          <h2
-            className="text-lg mb-4 text-center text-cyan-400"
-            style={{
-              fontFamily: "'Press Start 2P', monospace",
-              fontSize: "12px",
-            }}
-          >
-            Credits
-          </h2>
-          <div className="text-center space-y-4">
-            {team.map((member) => (
-              <div
-                key={member.name}
-                className="flex items-center justify-center gap-3"
-              >
-                <span className="text-3xl">{member.icon}</span>
-                <div>
-                  <div className="text-white font-bold">{member.name}</div>
-                  <div className="text-xs text-gray-500">{member.role}</div>
-                </div>
-              </div>
-            ))}
+      {/* Credits Section */}
+      <section
+        className="py-16 px-4"
+        style={{ background: "var(--bg-cream-dark)" }}
+      >
+        <div className="max-w-md mx-auto">
+          <div className="credits-box">
+            <h2
+              className="text-2xl font-bold mb-4 spidey-font"
+              style={{ color: "var(--outline-black)" }}
+            >
+              Credits
+            </h2>
 
             <div
-              className="pt-4 mt-4 text-sm text-gray-500"
-              style={{ borderTop: "1px solid #333" }}
+              className="flex items-center justify-center gap-4 py-4 mb-4"
+              style={{
+                background: "var(--bg-cream)",
+                border: "2px solid var(--outline-black)",
+              }}
             >
-              <p>Archived content provided by</p>
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center text-xl"
+                style={{ background: "var(--accent-cyan)" }}
+              >
+                👨‍💻
+              </div>
+              <div className="text-left">
+                <p
+                  className="font-bold spidey-font"
+                  style={{ color: "var(--outline-black)" }}
+                >
+                  Keshav
+                </p>
+                <p
+                  className="text-sm"
+                  style={{ color: "var(--outline-black)", opacity: 0.7 }}
+                >
+                  Creator & Developer
+                </p>
+              </div>
+            </div>
+
+            <p
+              className="text-sm mb-4"
+              style={{ color: "white", opacity: 0.9 }}
+            >
+              Archived content provided by:
+              <br />
               <a
                 href="https://archive.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-cyan-400 hover:underline"
+                className="underline hover:text-white"
               >
-                Internet Archive (archive.org)
+                Internet Archive, Archive.org
+              </a>
+            </p>
+
+            <div className="flex justify-center gap-4 mt-6">
+              <a
+                href="https://github.com/Keshav76315/archivio"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="action-btn action-btn-dark"
+              >
+                <span>⭐</span> GitHub
+              </a>
+              <a
+                href="https://archive.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="action-btn action-btn-pink"
+              >
+                <span>📚</span> Archive.org
               </a>
             </div>
           </div>
         </div>
-
-        {/* Links */}
-        <div className="flex justify-center gap-4">
-          <a
-            href="https://github.com/Keshav76315/archivio"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-3 rounded transition-all hover:scale-105"
-            style={{
-              background: "#1a1a2a",
-              border: "2px solid #333",
-              color: "#00ffcc",
-              fontFamily: "'VT323', monospace",
-            }}
-          >
-            ⭐ GitHub
-          </a>
-          <a
-            href="https://archive.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-3 rounded transition-all hover:scale-105"
-            style={{
-              background: "#1a1a2a",
-              border: "2px solid #333",
-              color: "#ff00aa",
-              fontFamily: "'VT323', monospace",
-            }}
-          >
-            📚 Archive.org
-          </a>
-        </div>
-      </div>
-    </RetroPageWrapper>
+      </section>
+    </main>
   );
 }
 

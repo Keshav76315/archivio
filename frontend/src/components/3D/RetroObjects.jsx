@@ -271,11 +271,16 @@ export function PixelStar({
   color = "#ffff00",
 }) {
   const meshRef = useRef();
+  const scaleRef = useRef(scale);
+
+  // Keep scaleRef in sync with prop
+  scaleRef.current = scale;
 
   useFrame((state) => {
+    if (!meshRef.current) return;
     meshRef.current.rotation.z = state.clock.elapsedTime;
     const pulse = 1 + Math.sin(state.clock.elapsedTime * 3) * 0.1;
-    meshRef.current.scale.setScalar(scale * pulse);
+    meshRef.current.scale.setScalar(scaleRef.current * pulse);
   });
 
   return (

@@ -6,6 +6,78 @@
    BASE STYLES
    ============================================================================= */
 
+/* Spider-Verse Font */
+@font-face {
+  font-family: "SpiderVerse";
+  src: url("/fonts/SpiderVerse.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ATSV Design System - Bright & Funky Colors */
+:root {
+  /* CRT Frame Colors */
+  --atsv-beige: #c4a77d;
+  --atsv-beige-light: #d9c4a5;
+  --atsv-beige-dark: #9a7f5f;
+  --atsv-purple: #3d2941;
+  --atsv-purple-dark: #261a29;
+  --atsv-purple-deep: #1a1020;
+
+  /* Bright Accent Colors */
+  --accent-cyan: #00e5ff;
+  --accent-magenta: #ff00ff;
+  --accent-pink: #ff6b9d;
+  --accent-yellow: #ffe135;
+  --accent-orange: #ff9500;
+
+  /* Screen / Phosphor Colors */
+  --phosphor-green: #00ff88;
+  --phosphor-green-dark: #00cc6a;
+  --phosphor-cyan: #00ffff;
+  --phosphor-amber: #ffbf00;
+
+  /* Outline & Stroke */
+  --outline-black: #1a1a1a;
+  --outline-dark: #2a2a2a;
+  --outline-width: 3px;
+  --outline-width-thin: 2px;
+  --outline-width-thick: 4px;
+
+  /* Text on light backgrounds (always dark for contrast) */
+  --text-on-light: #1a1a1a;
+
+  /* Sub-heading Color (Pink in light, Cyan in dark) */
+  --sub-heading-color: var(--accent-magenta);
+
+  /* Light Backgrounds (new!) */
+  --bg-cream: #faf8f5;
+  --bg-cream-dark: #f0ebe3;
+  --bg-light-purple: #f8f0ff;
+  --bg-light-cyan: #e8fffe;
+
+  /* Dark Backgrounds */
+  --bg-dark: #1a1020;
+  --bg-darker: #0f0a14;
+  --bg-card: #2a1f30;
+}
+
+/* Dark Mode Overrides */
+.dark-mode {
+  --bg-cream: #1a1020;
+  --bg-cream-dark: #261a29;
+  --outline-black: #ffffff;
+  --accent-cyan: #00e5ff;
+  --accent-magenta: #ff00ff;
+  --phosphor-green: #00ff88;
+
+  /* Sub-heading Color (Cyan in dark) */
+  --sub-heading-color: var(--accent-cyan);
+  /* Keep dark text for light backgrounds */
+  --text-on-light: #1a1a1a;
+}
+
 @layer base {
   * {
     margin: 0;
@@ -19,7 +91,7 @@
 
   body {
     font-family: "Inter", sans-serif;
-    background-color: #0a0e27;
+    background-color: var(--bg-darker);
     color: #e5e7eb;
     min-height: 100vh;
     overflow-x: hidden;
@@ -29,27 +101,29 @@
 
   /* Selection */
   ::selection {
-    background: rgba(0, 217, 255, 0.3);
+    background: rgba(127, 255, 154, 0.3);
     color: #fff;
   }
 
-  /* Custom scrollbar */
+  /* Custom scrollbar - ATSV style */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #0f1433;
+    background: var(--atsv-purple-dark);
+    border: 2px solid var(--outline-black);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #151a40;
-    border-radius: 4px;
+    background: var(--atsv-beige);
+    border: 2px solid var(--outline-black);
+    border-radius: 0;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #00d9ff;
+    background: var(--atsv-beige-light);
   }
 }
 
@@ -101,14 +175,9 @@
      GRADIENT TEXT
      ------------------------------------------------------------------------- */
 
-  .text-gradient {
-    background: linear-gradient(135deg, #00d9ff 0%, #a855f7 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
+  .text-gradient,
   .text-gradient-cyan-purple {
+    /* Both classes share the same gradient - use .text-gradient as the primary */
     background: linear-gradient(135deg, #00d9ff 0%, #a855f7 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -164,6 +233,13 @@
     transform: translateY(-2px);
   }
 
+  .btn-primary:focus,
+  .btn-primary:focus-visible {
+    outline: 2px solid #00d9ff;
+    outline-offset: 2px;
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+  }
+
   .btn-outline {
     @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 bg-transparent;
     border: 2px solid #00d9ff;
@@ -175,12 +251,28 @@
     box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
   }
 
+  .btn-outline:focus,
+  .btn-outline:focus-visible {
+    outline: 2px solid #00d9ff;
+    outline-offset: 2px;
+    background: rgba(0, 217, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+  }
+
   .btn-ghost {
     @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 bg-transparent border-none;
     color: #94a3b8;
   }
 
   .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+  }
+
+  .btn-ghost:focus,
+  .btn-ghost:focus-visible {
+    outline: 2px solid rgba(148, 163, 184, 0.5);
+    outline-offset: 2px;
     background: rgba(255, 255, 255, 0.05);
     color: #fff;
   }
@@ -522,4 +614,705 @@
 }
 .stagger-8 {
   animation-delay: 400ms;
+}
+
+/* =============================================================================
+   REDUCED MOTION ACCESSIBILITY
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all animations */
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-slide-in-left,
+  .animate-slide-in-right,
+  .animate-pulse-glow,
+  .animate-float,
+  .animate-spin-slow {
+    animation: none;
+  }
+
+  /* Disable transform-based hover effects */
+  .card:hover,
+  .btn-primary:hover {
+    transform: none;
+  }
+
+  /* Disable shimmer effect */
+  .shimmer::after {
+    animation: none;
+  }
+}
+
+/* =============================================================================
+   ATSV (SPIDER-VERSE) AESTHETIC UTILITIES
+   ============================================================================= */
+
+/* Bold Outlines - Core ATSV style */
+.atsv-outline {
+  border: var(--outline-width) solid var(--outline-black);
+  box-shadow:
+    0 4px 0 var(--outline-black),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.atsv-outline-thin {
+  border: var(--outline-width-thin) solid var(--outline-black);
+  box-shadow: 0 2px 0 var(--outline-black);
+}
+
+.atsv-outline-thick {
+  border: var(--outline-width-thick) solid var(--outline-black);
+  box-shadow: 0 6px 0 var(--outline-black);
+}
+
+/* Cel-shaded drop shadows */
+.atsv-shadow {
+  box-shadow:
+    6px 6px 0 var(--outline-black),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.atsv-shadow-sm {
+  box-shadow: 3px 3px 0 var(--outline-black);
+}
+
+.atsv-shadow-lg {
+  box-shadow:
+    10px 10px 0 var(--outline-black),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Painted texture backgrounds */
+.atsv-painted-beige {
+  background: linear-gradient(
+    135deg,
+    var(--atsv-beige-light) 0%,
+    var(--atsv-beige) 40%,
+    var(--atsv-beige-dark) 100%
+  );
+}
+
+.atsv-painted-purple {
+  background: linear-gradient(
+    135deg,
+    var(--atsv-purple) 0%,
+    var(--atsv-purple-dark) 60%,
+    var(--atsv-purple-deep) 100%
+  );
+}
+
+.atsv-painted-dark {
+  background: linear-gradient(
+    180deg,
+    var(--bg-card) 0%,
+    var(--bg-dark) 50%,
+    var(--bg-darker) 100%
+  );
+}
+
+/* Phosphor glow effects */
+.atsv-glow-green {
+  box-shadow:
+    0 0 20px var(--phosphor-green),
+    0 0 40px rgba(127, 255, 154, 0.3),
+    inset 0 0 20px rgba(127, 255, 154, 0.1);
+}
+
+.atsv-glow-cyan {
+  box-shadow:
+    0 0 20px var(--phosphor-cyan),
+    0 0 40px rgba(127, 255, 255, 0.3);
+}
+
+.atsv-glow-amber {
+  box-shadow:
+    0 0 20px var(--phosphor-amber),
+    0 0 40px rgba(255, 191, 127, 0.3);
+}
+
+/* Screen effects */
+.atsv-screen {
+  background: linear-gradient(
+    180deg,
+    rgba(127, 255, 154, 0.9) 0%,
+    rgba(61, 122, 77, 0.95) 100%
+  );
+  position: relative;
+}
+
+.atsv-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(255, 255, 255, 0.03) 2px,
+      rgba(255, 255, 255, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 1px,
+      rgba(0, 0, 0, 0.1) 1px,
+      rgba(0, 0, 0, 0.1) 2px
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Light reflections (top-left glare) */
+.atsv-glare::after {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 30%;
+  height: 20%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ATSV Button styles */
+.atsv-btn {
+  padding: 12px 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: var(--outline-width) solid var(--outline-black);
+  box-shadow: 4px 4px 0 var(--outline-black);
+  transition: all 0.1s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.atsv-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--outline-black);
+}
+
+.atsv-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--outline-black);
+}
+
+.atsv-btn-beige {
+  background: linear-gradient(
+    180deg,
+    var(--atsv-beige-light) 0%,
+    var(--atsv-beige) 100%
+  );
+  color: var(--outline-black);
+}
+
+.atsv-btn-green {
+  background: linear-gradient(
+    180deg,
+    var(--phosphor-green) 0%,
+    var(--phosphor-green-dark) 100%
+  );
+  color: var(--outline-black);
+}
+
+.atsv-btn-purple {
+  background: linear-gradient(
+    180deg,
+    var(--atsv-purple) 0%,
+    var(--atsv-purple-dark) 100%
+  );
+  color: #fff;
+}
+
+/* ATSV Card styles */
+.atsv-card {
+  background: var(--bg-card);
+  border: var(--outline-width) solid var(--outline-black);
+  box-shadow: 6px 6px 0 var(--outline-black);
+  padding: 1.5rem;
+}
+
+.atsv-card-beige {
+  background: linear-gradient(
+    145deg,
+    var(--atsv-beige-light) 0%,
+    var(--atsv-beige) 100%
+  );
+  color: var(--outline-black);
+}
+
+/* Diagonal scanlines animation */
+@keyframes atsv-scanlines {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 4px 4px;
+  }
+}
+
+.atsv-scanlines {
+  position: relative;
+}
+
+.atsv-scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.15) 3px,
+    rgba(0, 0, 0, 0.15) 6px
+  );
+  pointer-events: none;
+  animation: atsv-scanlines 0.5s linear infinite;
+}
+
+/* ATSV input styles */
+.atsv-input {
+  background: var(--bg-darker);
+  border: var(--outline-width) solid var(--outline-black);
+  box-shadow: inset 3px 3px 0 rgba(0, 0, 0, 0.3);
+  padding: 12px 16px;
+  color: var(--phosphor-green);
+  font-family: monospace;
+}
+
+.atsv-input:focus {
+  outline: none;
+  box-shadow:
+    inset 3px 3px 0 rgba(0, 0, 0, 0.3),
+    0 0 0 2px var(--phosphor-green);
+}
+
+/* Comic-style text shadow */
+.atsv-text-shadow {
+  text-shadow:
+    2px 2px 0 var(--outline-black),
+    -1px -1px 0 var(--outline-black),
+    1px -1px 0 var(--outline-black),
+    -1px 1px 0 var(--outline-black);
+}
+
+/* =============================================================================
+   FUNKY ANIMATIONS
+   ============================================================================= */
+
+/* Glitch Header Effect */
+@keyframes glitch {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(2px, -2px);
+  }
+  60% {
+    transform: translate(-2px, -2px);
+  }
+  80% {
+    transform: translate(2px, 2px);
+  }
+}
+
+@keyframes glitch-color {
+  0%,
+  100% {
+    text-shadow:
+      2px 0 var(--accent-cyan),
+      -2px 0 var(--accent-magenta);
+  }
+  25% {
+    text-shadow:
+      -2px 0 var(--accent-cyan),
+      2px 0 var(--accent-magenta);
+  }
+  50% {
+    text-shadow:
+      2px 2px var(--accent-cyan),
+      -2px -2px var(--accent-magenta);
+  }
+  75% {
+    text-shadow:
+      -2px 2px var(--accent-cyan),
+      2px -2px var(--accent-magenta);
+  }
+}
+
+.glitch-text {
+  animation:
+    glitch 0.3s infinite,
+    glitch-color 0.5s infinite;
+}
+
+.glitch-text:hover {
+  animation:
+    glitch 0.1s infinite,
+    glitch-color 0.2s infinite;
+}
+
+/* Typing Cursor Animation */
+@keyframes blink-cursor {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.typing-cursor::after {
+  content: "_";
+  animation: blink-cursor 1s step-end infinite;
+  color: var(--phosphor-green);
+}
+
+/* Noise/Static Effect for headers */
+.noise-bg {
+  position: relative;
+}
+
+.noise-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* Float Animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-delay-1 {
+  animation: float 3s ease-in-out infinite 0.5s;
+}
+
+.animate-float-delay-2 {
+  animation: float 3s ease-in-out infinite 1s;
+}
+
+/* Pulse Glow Animation */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 5px var(--accent-cyan),
+      0 0 10px var(--accent-cyan);
+  }
+  50% {
+    box-shadow:
+      0 0 20px var(--accent-cyan),
+      0 0 40px var(--accent-cyan);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Rotate Animation (for icons) */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+/* Wiggle Animation */
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+}
+
+.animate-wiggle {
+  animation: wiggle 0.5s ease-in-out infinite;
+}
+
+.hover-wiggle:hover {
+  animation: wiggle 0.3s ease-in-out infinite;
+}
+
+/* =============================================================================
+   NEW COMPONENT STYLES (Reference Image Matching)
+   ============================================================================= */
+
+/* Step Circle (for "How It Works") */
+.step-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--outline-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-cream);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.step-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Step Number Badge */
+.step-number {
+  font-family: "VT323", "Courier New", monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 2px solid var(--outline-black);
+}
+
+.step-number-cyan {
+  background: var(--accent-cyan);
+  color: var(--outline-black);
+}
+
+.step-number-magenta {
+  background: var(--accent-magenta);
+  color: white;
+}
+
+.step-number-yellow {
+  background: var(--accent-yellow);
+  color: var(--outline-black);
+}
+
+/* Tech Pill Badges */
+.tech-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 2px solid var(--outline-black);
+  border-radius: 999px;
+  background: var(--bg-cream);
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.tech-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 var(--outline-black);
+}
+
+.tech-pill-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Section Headers (with underline) */
+.section-header {
+  font-family: "VT323", "Courier New", monospace;
+  font-size: 2rem;
+  color: var(--outline-black);
+  position: relative;
+  display: inline-block;
+}
+
+.section-header::after {
+  content: "_";
+  animation: blink-cursor 1s step-end infinite;
+}
+
+/* Credits Box */
+.credits-box {
+  background: linear-gradient(
+    135deg,
+    var(--accent-pink) 0%,
+    var(--accent-magenta) 100%
+  );
+  border: 3px solid var(--outline-black);
+  box-shadow: 6px 6px 0 var(--outline-black);
+  padding: 24px;
+  text-align: center;
+}
+
+/* Glitch Header Bar */
+.glitch-bar {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    var(--accent-cyan) 0%,
+    transparent 20%,
+    transparent 80%,
+    var(--accent-magenta) 100%
+  );
+  height: 60px;
+}
+
+.glitch-bar::before,
+.glitch-bar::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 30%;
+  animation: glitch-slice 2s infinite;
+}
+
+.glitch-bar::before {
+  left: 0;
+  background: var(--accent-cyan);
+  mix-blend-mode: multiply;
+}
+
+.glitch-bar::after {
+  right: 0;
+  background: var(--accent-magenta);
+  mix-blend-mode: screen;
+}
+
+@keyframes glitch-slice {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.5;
+  }
+  10% {
+    transform: translateX(-5px);
+    opacity: 0.8;
+  }
+  20% {
+    transform: translateX(5px);
+    opacity: 0.3;
+  }
+  30% {
+    transform: translateX(-3px);
+    opacity: 0.6;
+  }
+}
+
+/* GitHub/Action Buttons */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: 3px solid var(--outline-black);
+  font-weight: bold;
+  font-family: "Space Grotesk", sans-serif;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 5px 0 var(--outline-black);
+}
+
+.action-btn-dark {
+  background: #1a1a1a;
+  color: white;
+  border-color: #1a1a1a;
+}
+
+.dark-mode .action-btn-dark {
+  background: white;
+  color: #1a1a1a;
+  border-color: white;
+}
+
+.action-btn-pink {
+  background: var(--accent-pink);
+  color: #1a1a1a;
+}
+
+/* Light section panels */
+.light-panel {
+  background: var(--bg-cream);
+  border: 3px solid var(--outline-black);
+  box-shadow: 6px 6px 0 var(--outline-black);
+}
+
+/* Dashed border box */
+.dashed-box {
+  border: 2px dashed var(--outline-black);
+  background: var(--bg-cream-dark);
+}
+
+/* Spider-Verse Font Utility */
+.spidey-font {
+  font-family: "SpiderVerse", "Space Grotesk", sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+}
+
+/* Tech Stack Pills */
+.tech-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 50px;
+  background: white;
+  border: 2px solid var(--outline-black);
+  color: var(--text-on-light);
+  font-weight: bold;
+  font-family: "Space Grotesk", sans-serif;
+  box-shadow: 2px 2px 0 var(--outline-black);
+  transition: all 0.2s ease;
+}
+
+/* Section Headers (with Spider-Verse font and typing cursor) */
+.section-header {
+  font-family: "SpiderVerse", "Space Grotesk", sans-serif;
+  font-size: 2rem;
+  color: var(--outline-black);
+  position: relative;
+  display: inline-block;
+}
+
+.section-header::after {
+  content: "_";
+  animation: blink-cursor 1s step-end infinite;
 }

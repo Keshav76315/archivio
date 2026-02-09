@@ -15,7 +15,7 @@ const navLinks = [
   { to: "/submit", label: "Submit" },
 ];
 
-function Header() {
+function Header({ exhibitsCount = 2847 }) {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -88,8 +88,11 @@ function Header() {
         {/* Right Section - Stats + GitHub */}
         <div className="hidden md:flex items-center gap-4">
           {/* Stats Pill */}
+          {/* TODO: exhibitsCount should come from API/context for real data */}
           <div className="glass px-3 py-1.5 rounded-full text-xs text-text-secondary">
-            <span className="text-cyan-DEFAULT font-semibold">2,847</span>{" "}
+            <span className="text-cyan-DEFAULT font-semibold">
+              {exhibitsCount.toLocaleString()}
+            </span>{" "}
             exhibits archived
           </div>
 
@@ -112,6 +115,8 @@ function Header() {
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
           aria-label="Toggle menu"
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-menu"
         >
           <span
             className={`w-6 h-0.5 bg-text-secondary transition-transform duration-300 ${
@@ -133,6 +138,7 @@ function Header() {
 
       {/* Mobile Menu Overlay */}
       <div
+        id="mobile-menu"
         className={`
           md:hidden fixed inset-0 top-20 bg-bg-base/95 backdrop-blur-lg
           transition-all duration-300 z-modal

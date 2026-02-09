@@ -1,14 +1,13 @@
 /**
- * Search Page - Retro Web Style
- * ------------------------------
- * Retro search interface with CRT display for results
+ * Search Page - ATSV Style
+ * -------------------------
+ * ATSV search interface with cream background and CRT results
  */
 
 import { useState } from "react";
-import RetroPageWrapper from "../components/Retro/RetroPageWrapper";
 import CRTMonitor from "../components/Retro/CRTMonitor";
 
-// Sample search results (mock data)
+// Sample search results
 const mockResults = [
   {
     id: 1,
@@ -57,7 +56,6 @@ function Search() {
   const [results, setResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
-  const [frameVariant, setFrameVariant] = useState("smooth");
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -68,7 +66,6 @@ function Search() {
 
     // Simulate search delay
     setTimeout(() => {
-      // Filter mock results based on query
       const filtered = mockResults.filter(
         (r) =>
           r.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -80,168 +77,173 @@ function Search() {
   };
 
   return (
-    <RetroPageWrapper
-      title="🔍 SEARCH"
-      subtitle="Find lost websites and artifacts"
-    >
-      <div className="max-w-2xl mx-auto px-4 pb-24">
-        {/* Search form */}
-        <form onSubmit={handleSearch} className="mb-8">
-          <div
-            className="flex gap-2 p-4 rounded-lg"
+    <main style={{ background: "var(--bg-cream)", minHeight: "100vh" }}>
+      {/* Glitch Header Bar */}
+      <div className="glitch-bar noise-bg" />
+
+      <div className="relative z-10 pt-8 px-4 pb-16">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1
+            className="text-4xl md:text-5xl font-bold mb-2 glitch-text spidey-font"
+            style={{ color: "var(--outline-black)" }}
+          >
+            🔍 SEARCH
+          </h1>
+          <p
             style={{
-              background: "rgba(0,0,0,0.6)",
-              border: "2px solid #00ffcc",
-              boxShadow: "0 0 20px rgba(0,255,204,0.2)",
+              color: "var(--sub-heading-color)",
+              fontFamily: "'VT323', monospace",
             }}
           >
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search the archives..."
-              className="flex-1 px-4 py-3 text-lg rounded"
-              style={{
-                background: "#0a0a0a",
-                border: "2px inset #333",
-                color: "#00ffcc",
-                fontFamily: "'VT323', monospace",
-                outline: "none",
-              }}
-            />
-            <button
-              type="submit"
-              disabled={isSearching}
-              className="px-6 py-3 font-bold transition-all hover:scale-105"
-              style={{
-                background: "linear-gradient(180deg, #00ffcc 0%, #00aa88 100%)",
-                color: "#000",
-                border: "3px outset #00ffcc",
-                fontFamily: "'Press Start 2P', monospace",
-                fontSize: "10px",
-              }}
-            >
-              {isSearching ? "⏳" : "🔍"} SEARCH
-            </button>
-          </div>
+            Find lost websites and artifacts
+          </p>
+        </div>
 
-          {/* Search tips */}
-          <div className="text-center text-sm text-gray-500 mt-2">
-            💡 Try: "geocities", "flash games", "myspace"
-          </div>
-        </form>
-
-        {/* Results in CRT Monitor */}
-        {hasSearched && (
-          <CRTMonitor
-            title="search_results.exe"
-            variant={frameVariant}
-            showSwitcher={true}
-            onVariantChange={setFrameVariant}
-          >
-            <div className="min-h-[350px]" style={{ background: "#0a0a0a" }}>
-              {/* Results header */}
-              <div
-                className="flex items-center justify-between px-3 py-2"
+        <div className="max-w-2xl mx-auto">
+          {/* Search form */}
+          <form onSubmit={handleSearch} className="mb-8">
+            <div className="flex gap-2 p-4 light-panel">
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search the archives..."
+                aria-label="Search the archives"
+                className="flex-1 px-4 py-3 text-lg rounded"
                 style={{
-                  background: "#1a1a2a",
-                  borderBottom: "2px solid #333",
+                  background: "var(--outline-black)",
+                  border: "2px solid var(--accent-cyan)",
+                  color: "var(--phosphor-green)",
+                  fontFamily: "'VT323', monospace",
+                  outline: "none",
+                }}
+              />
+              <button
+                type="submit"
+                disabled={isSearching}
+                className="action-btn hover-wiggle"
+                style={{
+                  background: "var(--accent-cyan)",
+                  color: "var(--outline-black)",
+                  fontFamily: "'SpiderVerse', sans-serif",
                 }}
               >
-                <span className="text-cyan-400">Query: "{query}"</span>
-                <span className="text-gray-500 text-sm">
-                  {results.length} results
-                </span>
-              </div>
+                {isSearching ? "⏳" : "🔍"} SEARCH
+              </button>
+            </div>
 
-              {/* Loading state */}
-              {isSearching && (
-                <div className="text-center py-16">
-                  <div className="text-4xl mb-4 animate-spin">💿</div>
-                  <p
-                    className="text-cyan-400"
-                    style={{ fontFamily: "'VT323', monospace" }}
+            {/* Search tips */}
+            <div
+              className="text-center text-sm mt-2"
+              style={{ color: "var(--outline-black)", opacity: 0.6 }}
+            >
+              💡 Try: "geocities", "flash games", "myspace"
+            </div>
+          </form>
+
+          {/* Results in CRT Monitor */}
+          {hasSearched && (
+            <CRTMonitor title="search_results.exe" variant="atsv">
+              <div className="min-h-[350px]" style={{ background: "#0a0a0a" }}>
+                {/* Results header */}
+                <div
+                  className="flex items-center justify-between px-3 py-2"
+                  style={{
+                    background: "#111",
+                    borderBottom: "2px solid var(--accent-cyan)",
+                  }}
+                >
+                  <span
+                    className="spidey-font"
+                    style={{ color: "var(--phosphor-green)" }}
                   >
-                    Searching archives...
-                  </p>
+                    Results for: "{query}"
+                  </span>
+                  <span style={{ color: "#666" }}>{results.length} found</span>
                 </div>
-              )}
 
-              {/* Results list */}
-              {!isSearching && (
-                <div className="max-h-[300px] overflow-y-auto">
-                  {results.map((result, idx) => (
-                    <button
-                      key={result.id}
-                      className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-blue-900/50 transition-colors"
+                {/* Loading state */}
+                {isSearching ? (
+                  <div className="text-center py-16">
+                    <div className="text-4xl mb-4 animate-spin-slow">🔍</div>
+                    <p
                       style={{
+                        color: "var(--phosphor-green)",
                         fontFamily: "'VT323', monospace",
-                        borderBottom: "1px solid #222",
                       }}
                     >
-                      {/* Icon */}
-                      <span className="text-xl">
-                        {result.type === "link" ? "🔗" : "💾"}
-                      </span>
-
-                      {/* Info */}
-                      <div className="flex-1 min-w-0">
-                        <div className="text-cyan-400 truncate">
-                          {result.name}
-                        </div>
-                        <div className="text-xs text-gray-500">
-                          {result.domain} • {result.year}
-                        </div>
-                      </div>
-
-                      {/* Match score */}
-                      <div
-                        className="text-xs px-2 py-1 rounded"
+                      Searching archives...
+                    </p>
+                  </div>
+                ) : (
+                  /* Results list */
+                  <div className="max-h-[300px] overflow-y-auto">
+                    {results.map((result) => (
+                      <button
+                        key={result.id}
+                        className="w-full flex items-center gap-3 px-3 py-3 text-left transition-colors"
                         style={{
-                          background: result.score > 80 ? "#003300" : "#1a1a2a",
-                          color: result.score > 80 ? "#00ff00" : "#888",
+                          fontFamily: "'VT323', monospace",
+                          borderBottom: "1px solid #333",
                         }}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.background =
+                            "rgba(0,229,255,0.1)")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.background = "transparent")
+                        }
                       >
-                        {result.score}%
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* Status bar */}
-              <div
-                className="flex justify-between items-center px-3 py-1 text-xs text-gray-500"
-                style={{
-                  background: "#1a1a2a",
-                  borderTop: "2px solid #333",
-                }}
-              >
-                <span>Powered by Archive.org</span>
-                <span>🔗 = Link • 💾 = Download</span>
+                        <span className="text-lg">
+                          {result.type === "link" ? "🔗" : "💾"}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <div
+                            className="truncate"
+                            style={{ color: "var(--phosphor-green)" }}
+                          >
+                            {result.name}
+                          </div>
+                          <div className="text-xs" style={{ color: "#666" }}>
+                            {result.domain} • {result.year}
+                          </div>
+                        </div>
+                        <div
+                          className="px-2 py-1 rounded text-xs"
+                          style={{
+                            background:
+                              result.score > 85
+                                ? "var(--accent-cyan)"
+                                : "var(--accent-yellow)",
+                            color: "var(--outline-black)",
+                          }}
+                        >
+                          {result.score}%
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            </div>
-          </CRTMonitor>
-        )}
+            </CRTMonitor>
+          )}
 
-        {/* Pre-search state */}
-        {!hasSearched && (
-          <div
-            className="text-center py-16 rounded-lg"
-            style={{
-              background: "rgba(0,0,0,0.4)",
-              border: "2px dashed #333",
-            }}
-          >
-            <span className="text-6xl block mb-4">🔎</span>
-            <p className="text-gray-400 mb-2">Enter a search query above</p>
-            <p className="text-sm text-gray-600">
-              Search across 2,847+ archived websites
-            </p>
-          </div>
-        )}
+          {/* No search yet */}
+          {!hasSearched && (
+            <div className="text-center light-panel p-8">
+              <span className="text-5xl block mb-4">🔎</span>
+              <p
+                className="spidey-font"
+                style={{ color: "var(--outline-black)" }}
+              >
+                Enter a search term to find archived content
+              </p>
+            </div>
+          )}
+        </div>
       </div>
-    </RetroPageWrapper>
+    </main>
   );
 }
 

@@ -6,6 +6,7 @@ import Timeline from "./pages/Timeline";
 import Search from "./pages/Search";
 import Submit from "./pages/Submit";
 import About from "./pages/About";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="search" element={<Search />} />
         <Route path="submit" element={<Submit />} />
         <Route path="about" element={<About />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
     </Routes>
   );

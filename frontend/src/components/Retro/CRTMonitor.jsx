@@ -5,7 +5,7 @@
  * Three variants: smooth (realistic), pixel (8-bit), 4bit (chunky retro)
  */
 
-import { useState, forwardRef } from "react";
+import { useState, useEffect, forwardRef } from "react";
 
 // Smooth realistic CRT frame
 function CRTFrameSmooth({ children, title = "display.exe", className = "" }) {
@@ -461,13 +461,210 @@ function CRTFrame4Bit({ children, title = "display.exe", className = "" }) {
   );
 }
 
+// ATSV (Spider-Verse) Style CRT Frame - Matching reference image
+function CRTFrameATSV({ children, title = "display.exe", className = "" }) {
+  return (
+    <div className={`relative ${className}`}>
+      {/* Monitor outer bezel - Beige painted texture */}
+      <div
+        className="p-6 relative"
+        style={{
+          background:
+            "linear-gradient(145deg, #d9c4a5 0%, #c4a77d 30%, #9a7f5f 100%)",
+          border: "4px solid #1a1a1a",
+          boxShadow: `
+            8px 8px 0 #1a1a1a,
+            inset 4px 4px 8px rgba(255,255,255,0.3),
+            inset -4px -4px 8px rgba(0,0,0,0.2)
+          `,
+          borderRadius: "4px",
+        }}
+      >
+        {/* Brand label */}
+        <div className="text-center mb-3">
+          <span
+            className="text-sm font-black tracking-widest"
+            style={{
+              color: "#3d2941",
+              textShadow: "1px 1px 0 rgba(255,255,255,0.3)",
+            }}
+          >
+            ARCHIVIO™
+          </span>
+        </div>
+
+        {/* Inner bezel - Eggplant purple */}
+        <div
+          className="p-3 relative"
+          style={{
+            background:
+              "linear-gradient(180deg, #4d3451 0%, #3d2941 50%, #261a29 100%)",
+            border: "3px solid #1a1a1a",
+            boxShadow: "inset 4px 4px 12px rgba(0,0,0,0.6)",
+            borderRadius: "2px",
+          }}
+        >
+          {/* Screen area - with rounded corners like reference */}
+          <div
+            className="relative overflow-hidden"
+            style={{
+              background: "#0a0a0a",
+              border: "3px solid #1a1a1a",
+              borderRadius: "8px",
+              boxShadow: "inset 0 0 30px rgba(127, 255, 154, 0.15)",
+            }}
+          >
+            {/* Phosphor green screen base */}
+            <div
+              className="absolute inset-0 pointer-events-none z-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(127, 255, 154, 0.03) 0%, rgba(61, 122, 77, 0.05) 100%)",
+              }}
+            />
+
+            {/* Diagonal scanlines */}
+            <div
+              className="absolute inset-0 pointer-events-none z-10"
+              style={{
+                background: `
+                  repeating-linear-gradient(
+                    -45deg,
+                    transparent 0px,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.015) 2px,
+                    rgba(255, 255, 255, 0.015) 4px
+                  )
+                `,
+              }}
+            />
+
+            {/* Horizontal scanlines */}
+            <div
+              className="absolute inset-0 pointer-events-none z-10"
+              style={{
+                background: `
+                  repeating-linear-gradient(
+                    0deg,
+                    transparent 0px,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.08) 2px,
+                    rgba(0, 0, 0, 0.08) 4px
+                  )
+                `,
+              }}
+            />
+
+            {/* Light reflections / glare spots */}
+            <div
+              className="absolute pointer-events-none z-20"
+              style={{
+                top: "8%",
+                left: "8%",
+                width: "25%",
+                height: "15%",
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.05) 60%, transparent 100%)",
+                borderRadius: "50%",
+                transform: "rotate(-15deg)",
+              }}
+            />
+            <div
+              className="absolute pointer-events-none z-20"
+              style={{
+                top: "12%",
+                left: "18%",
+                width: "10%",
+                height: "6%",
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 100%)",
+                borderRadius: "50%",
+              }}
+            />
+
+            {/* Title bar */}
+            <div
+              className="flex items-center justify-between px-3 py-2 relative z-30"
+              style={{
+                background: "linear-gradient(90deg, #261a29 0%, #3d2941 100%)",
+                borderBottom: "2px solid #1a1a1a",
+              }}
+            >
+              <span
+                className="text-xs font-bold tracking-wide"
+                style={{
+                  color: "#7fff9a",
+                  fontFamily: "'VT323', monospace",
+                  textShadow: "0 0 8px rgba(127, 255, 154, 0.5)",
+                }}
+              >
+                {title}
+              </span>
+              <div className="flex gap-2" aria-hidden="true">
+                <span
+                  className="w-3 h-3 flex items-center justify-center text-xs"
+                  style={{
+                    background: "#9a7f5f",
+                    border: "2px solid #1a1a1a",
+                  }}
+                >
+                  _
+                </span>
+                <span
+                  className="w-3 h-3 flex items-center justify-center text-xs"
+                  style={{
+                    background: "#ff6b6b",
+                    border: "2px solid #1a1a1a",
+                  }}
+                >
+                  ×
+                </span>
+              </div>
+            </div>
+
+            {/* Content area */}
+            <div className="relative z-30 bg-black/90">{children}</div>
+          </div>
+        </div>
+
+        {/* Control buttons at bottom */}
+        <div className="flex justify-center gap-3 mt-3">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="w-8 h-3"
+              style={{
+                background: "linear-gradient(180deg, #4a4a4a 0%, #333 100%)",
+                border: "2px solid #1a1a1a",
+                borderRadius: "2px",
+              }}
+              aria-hidden="true"
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Side cable hint */}
+      <div
+        className="absolute right-0 top-1/2 w-4 h-12"
+        style={{
+          background: "linear-gradient(90deg, #333 0%, #1a1a1a 100%)",
+          borderRadius: "0 4px 4px 0",
+          transform: "translateX(50%)",
+        }}
+        aria-hidden="true"
+      />
+    </div>
+  );
+}
+
 // Main export with frame switcher
 const CRTMonitor = forwardRef(
   (
     {
       children,
       title = "display.exe",
-      variant = "smooth", // 'smooth', 'pixel', or '4bit'
+      variant = "atsv", // 'atsv', 'smooth', 'pixel', or '4bit'
       className = "",
       showSwitcher = false,
       onVariantChange,
@@ -476,24 +673,50 @@ const CRTMonitor = forwardRef(
   ) => {
     const [currentVariant, setCurrentVariant] = useState(variant);
 
+    // Sync internal state when prop changes
+    useEffect(() => {
+      setCurrentVariant(variant);
+    }, [variant]);
+
     const handleVariantChange = (v) => {
       setCurrentVariant(v);
       onVariantChange?.(v);
     };
 
     const frames = {
+      atsv: CRTFrameATSV,
       smooth: CRTFrameSmooth,
       pixel: CRTFramePixel,
       "4bit": CRTFrame4Bit,
     };
 
-    const Frame = frames[currentVariant] || CRTFrameSmooth;
+    const Frame = frames[currentVariant] || CRTFrameATSV;
 
     return (
       <div ref={ref} className="relative">
         {/* Frame variant switcher */}
         {showSwitcher && (
           <div className="absolute -top-12 right-0 z-30 flex gap-2">
+            <button
+              onClick={() => handleVariantChange("atsv")}
+              className={`px-3 py-1 text-xs font-bold transition-all ${
+                currentVariant === "atsv"
+                  ? "text-black"
+                  : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+              }`}
+              style={{
+                background:
+                  currentVariant === "atsv"
+                    ? "linear-gradient(180deg, #d9c4a5 0%, #c4a77d 100%)"
+                    : undefined,
+                border: "2px solid",
+                borderColor: currentVariant === "atsv" ? "#1a1a1a" : "#444",
+                boxShadow:
+                  currentVariant === "atsv" ? "3px 3px 0 #1a1a1a" : "none",
+              }}
+            >
+              ATSV
+            </button>
             <button
               onClick={() => handleVariantChange("smooth")}
               className={`px-3 py-1 text-xs font-bold transition-all ${
@@ -554,4 +777,4 @@ const CRTMonitor = forwardRef(
 CRTMonitor.displayName = "CRTMonitor";
 
 export default CRTMonitor;
-export { CRTFrameSmooth, CRTFramePixel, CRTFrame4Bit };
+export { CRTFrameSmooth, CRTFramePixel, CRTFrame4Bit, CRTFrameATSV };

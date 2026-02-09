@@ -2,9 +2,11 @@
  * Button Component
  * ----------------
  * Futuristic button styles with glow effects
+ * Supports polymorphic rendering via 'as' prop for routing
  */
 
 import { forwardRef } from "react";
+import { Link } from "react-router-dom";
 
 const variants = {
   // Primary - gradient cyan background
@@ -65,6 +67,9 @@ const Button = forwardRef(
       className = "",
       disabled = false,
       loading = false,
+      as: Component,
+      to,
+      href,
       ...props
     },
     ref,
@@ -72,28 +77,65 @@ const Button = forwardRef(
     const baseClasses = variants[variant] || variants.primary;
     const sizeClasses = variant !== "icon" ? sizes[size] : "";
 
+    const combinedClassName = `
+      ${baseClasses}
+      ${sizeClasses}
+      ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+      ${className}
+    `
+      .trim()
+      .replace(/\s+/g, " ");
+
+    const content = loading ? (
+      <span className="flex items-center gap-2">
+        <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+        Loading...
+      </span>
+    ) : (
+      children
+    );
+
+    // If 'to' is provided, render as Link
+    if (to) {
+      return (
+        <Link ref={ref} to={to} className={combinedClassName} {...props}>
+          {content}
+        </Link>
+      );
+    }
+
+    // If 'href' is provided, render as anchor
+    if (href) {
+      return (
+        <a ref={ref} href={href} className={combinedClassName} {...props}>
+          {content}
+        </a>
+      );
+    }
+
+    // If custom component is provided via 'as'
+    if (Component) {
+      return (
+        <Component
+          ref={ref}
+          className={combinedClassName}
+          disabled={disabled || loading}
+          {...props}
+        >
+          {content}
+        </Component>
+      );
+    }
+
+    // Default: render as button
     return (
       <button
         ref={ref}
-        className={`
-        ${baseClasses}
-        ${sizeClasses}
-        ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
-        ${className}
-      `
-          .trim()
-          .replace(/\s+/g, " ")}
+        className={combinedClassName}
         disabled={disabled || loading}
         {...props}
       >
-        {loading ? (
-          <span className="flex items-center gap-2">
-            <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-            Loading...
-          </span>
-        ) : (
-          children
-        )}
+        {content}
       </button>
     );
   },

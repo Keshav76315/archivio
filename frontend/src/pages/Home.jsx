@@ -1,42 +1,168 @@
 /**
- * Home Page
- * ---------
- * Landing page with hero section and featured content
+ * Home Page - ATSV Style
+ * ----------------------
+ * Bright, funky design with glitch effects, typing animations,
+ * step circles, tech pills, and credits section
  */
 
-import HeroSection from "../components/Hero/HeroSection";
+import { useState, useEffect } from "react";
+import CRTMonitor from "../components/Retro/CRTMonitor";
+import { Link } from "react-router-dom";
+
+// Typing animation hook
+function useTypingAnimation(text, speed = 50) {
+  const [displayText, setDisplayText] = useState("");
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    setDisplayText("");
+    setIsComplete(false);
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        setDisplayText(text.slice(0, i + 1));
+        i++;
+      } else {
+        setIsComplete(true);
+        clearInterval(interval);
+      }
+    }, speed);
+    return () => clearInterval(interval);
+  }, [text, speed]);
+
+  return { displayText, isComplete };
+}
 
 function Home() {
+  const { displayText: missionText } = useTypingAnimation(
+    "The early internet was a beautiful, chaotic place. GeoCities neighborhoods, MySpace profiles with auto-playing music, Flash games that defined a generation.",
+    30,
+  );
+
   return (
-    <main>
-      {/* Hero with 3D Background */}
-      <HeroSection />
+    <main style={{ background: "var(--bg-cream)" }}>
+      {/* Glitch Header Bar */}
+      <div className="glitch-bar noise-bg" />
 
-      {/* Featured Exhibits Section (can be added later) */}
-      <section className="relative py-24 px-4 bg-bg-elevated">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-            <span className="text-gradient">Featured Exhibits</span>
-          </h2>
-          <p className="text-text-secondary max-w-2xl mx-auto mb-12">
-            Explore curated collections of the internet's most iconic extinct
-            websites
-          </p>
+      {/* Hero Section */}
+      <section
+        className="relative py-8 px-4"
+        style={{ background: "var(--bg-cream)" }}
+      >
+        {/* Subtitle */}
+        <p
+          className="text-center text-sm tracking-widest mb-8"
+          style={{ color: "var(--outline-black)", opacity: 0.6 }}
+        >
+          THE STORY BEHIND ARCHIVIO
+        </p>
 
-          {/* Placeholder grid - will be replaced with ExhibitCard grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {["GeoCities", "MySpace", "Flash Games"].map((domain, i) => (
-              <div
-                key={domain}
-                className="card p-6 animate-fade-in"
-                style={{ animationDelay: `${i * 100}ms` }}
+        {/* CRT Monitor - Our Mission */}
+        <div className="max-w-4xl mx-auto">
+          <CRTMonitor title="mission.txt" variant="atsv">
+            <div className="p-6 md:p-8" style={{ background: "#0a0a0a" }}>
+              <h2
+                className="text-2xl md:text-3xl font-bold mb-6 typing-cursor"
+                style={{
+                  color: "var(--phosphor-green)",
+                  fontFamily: "'VT323', monospace",
+                }}
               >
-                <div className="aspect-[4/3] bg-bg-surface rounded-lg mb-4 shimmer" />
-                <h3 className="font-display text-lg font-semibold text-white mb-2">
-                  {domain} Archive
+                {">"} Our Mission
+              </h2>
+
+              <p
+                className="mb-4 leading-relaxed"
+                style={{ color: "var(--phosphor-green)", opacity: 0.9 }}
+              >
+                {missionText}
+              </p>
+
+              <p className="mb-4" style={{ color: "#888" }}>
+                Most of it is gone now.{" "}
+                <span
+                  className="px-2 py-1"
+                  style={{ background: "var(--accent-pink)", color: "white" }}
+                >
+                  But not forgotten.
+                </span>
+              </p>
+
+              <p style={{ color: "var(--phosphor-green)", opacity: 0.7 }}>
+                Archivio is a digital museum dedicated to preserving and
+                celebrating the lost wonders of the early web.
+              </p>
+            </div>
+          </CRTMonitor>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section
+        className="py-16 px-4"
+        style={{ background: "var(--bg-cream-dark)" }}
+      >
+        <div className="max-w-4xl mx-auto">
+          {/* Section label */}
+          <div
+            className="inline-block px-3 py-1 mb-8 text-sm font-mono"
+            style={{
+              background: "var(--outline-black)",
+              color: "var(--phosphor-green)",
+            }}
+          >
+            SYSTEM_PROCESS
+          </div>
+
+          <h2 className="section-header text-3xl mb-12">How It Works</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: "🔍",
+                step: "01",
+                title: "Discover",
+                desc: "Find archived sites from the depths of the Wayback Machine",
+                color: "cyan",
+              },
+              {
+                icon: "🛡️",
+                step: "02",
+                title: "Preserve",
+                desc: "AI-enhanced content verification and asset recovery",
+                color: "magenta",
+              },
+              {
+                icon: "🏛️",
+                step: "03",
+                title: "Exhibit",
+                desc: "Browse in a curated 3D museum environment",
+                color: "yellow",
+              },
+            ].map((item, i) => (
+              <div
+                key={item.step}
+                className={`text-center animate-float${i > 0 ? `-delay-${i}` : ""}`}
+              >
+                <div className="step-circle mx-auto mb-4 hover-wiggle">
+                  <span className="text-3xl">{item.icon}</span>
+                </div>
+                <span
+                  className={`step-number step-number-${item.color} mb-2 inline-block`}
+                >
+                  Step {item.step}
+                </span>
+                <h3
+                  className="text-lg font-bold mt-2"
+                  style={{ color: "var(--outline-black)" }}
+                >
+                  {item.title}
                 </h3>
-                <p className="text-sm text-text-muted">
-                  Discover preserved sites from the golden era
+                <p
+                  className="text-sm mt-2"
+                  style={{ color: "var(--outline-black)", opacity: 0.7 }}
+                >
+                  {item.desc}
                 </p>
               </div>
             ))}
@@ -44,46 +170,97 @@ function Home() {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="relative py-24 px-4 bg-bg-base">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-            <span className="text-gradient">How It Works</span>
+      {/* Tech Stack Section */}
+      <section className="py-16 px-4" style={{ background: "var(--bg-cream)" }}>
+        <div className="max-w-4xl mx-auto light-panel p-8">
+          <h2 className="section-header text-2xl mb-8 text-center block">
+            Tech Stack
           </h2>
-          <p className="text-text-secondary max-w-xl mx-auto mb-16">
-            We preserve internet history using the Wayback Machine and AI
-          </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex flex-wrap justify-center gap-4">
             {[
-              {
-                icon: "🕸️",
-                title: "Discover",
-                desc: "Find archived snapshots from Archive.org",
-              },
-              {
-                icon: "🤖",
-                title: "Analyze",
-                desc: "AI generates historical context",
-              },
-              {
-                icon: "🏛️",
-                title: "Exhibit",
-                desc: "View in immersive 3D museum",
-              },
-            ].map((step, i) => (
-              <div
-                key={step.title}
-                className="text-center animate-slide-up"
-                style={{ animationDelay: `${i * 150}ms` }}
-              >
-                <div className="text-5xl mb-4">{step.icon}</div>
-                <h3 className="font-display text-xl font-semibold text-white mb-2">
-                  {step.title}
-                </h3>
-                <p className="text-text-muted text-sm">{step.desc}</p>
+              { name: "React", icon: "⚛️" },
+              { name: "Three.js", icon: "🎮" },
+              { name: "FastAPI", icon: "⚡" },
+              { name: "Redis", icon: "🔴" },
+            ].map((tech) => (
+              <div key={tech.name} className="tech-pill hover-wiggle">
+                <span>{tech.icon}</span>
+                <span>{tech.name}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Credits Section */}
+      <section
+        className="py-16 px-4"
+        style={{ background: "var(--bg-cream-dark)" }}
+      >
+        <div className="max-w-md mx-auto">
+          <div className="credits-box">
+            <h2
+              className="text-2xl font-bold mb-4"
+              style={{ color: "white", fontFamily: "'VT323', monospace" }}
+            >
+              Credits
+            </h2>
+
+            <div
+              className="flex items-center justify-center gap-4 py-4 mb-4"
+              style={{
+                background: "var(--bg-cream)",
+                border: "2px solid var(--outline-black)",
+              }}
+            >
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center text-xl"
+                style={{ background: "var(--accent-cyan)" }}
+              >
+                👤
+              </div>
+              <div className="text-left">
+                <p
+                  className="font-bold"
+                  style={{ color: "var(--outline-black)" }}
+                >
+                  Keshav
+                </p>
+                <p
+                  className="text-sm"
+                  style={{ color: "var(--outline-black)", opacity: 0.7 }}
+                >
+                  Creator & Developer
+                </p>
+              </div>
+            </div>
+
+            <p
+              className="text-sm mb-4"
+              style={{ color: "white", opacity: 0.9 }}
+            >
+              Archived content provided by:
+              <br />
+              <a href="https://archive.org" className="underline">
+                Internet Archive, Archive.org
+              </a>
+            </p>
+
+            <div className="flex justify-center gap-4 mt-6">
+              <a
+                href="https://github.com"
+                className="action-btn action-btn-dark"
+              >
+                <span>🐙</span> GitHub
+              </a>
+              <a
+                href="https://archive.org"
+                className="action-btn action-btn-pink"
+              >
+                <span>📚</span> Archive.org
+              </a>
+            </div>
           </div>
         </div>
       </section>

@@ -77,3 +77,9 @@ htmlcov/
 *.tmp
 *.temp
 name+tagline.txt
+
+# Docs
+PLAN.md
+TODO.md
+FIXME.md
+CONTRIBUTING.md

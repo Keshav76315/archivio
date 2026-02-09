@@ -1,22 +1,20 @@
 /**
- * Explore Page - Retro Web Style
- * -------------------------------
+ * Explore Page - ATSV Style
+ * --------------------------
  * Folder-based navigation with CRT monitor display
- * Flow: Folders -> CRT viewer with items -> Open link / Download
+ * Cream background, ATSV components, Spider-Verse font
  */
 
 import { useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { Stars } from "@react-three/drei";
 import CRTMonitor from "../components/Retro/CRTMonitor";
 
-// Sample folder data (will be replaced with API data)
+// Sample folder data
 const folders = [
   {
     id: "geocities",
     name: "GeoCities",
     icon: "🌐",
-    color: "#00ffcc",
+    color: "cyan",
     desc: "Personal homepages from the 90s",
     count: 847,
   },
@@ -24,7 +22,7 @@ const folders = [
     id: "flash",
     name: "Flash Games",
     icon: "🎮",
-    color: "#ff00aa",
+    color: "magenta",
     desc: "Classic Flash games & animations",
     count: 312,
   },
@@ -32,7 +30,7 @@ const folders = [
     id: "myspace",
     name: "MySpace",
     icon: "👤",
-    color: "#ffff00",
+    color: "yellow",
     desc: "Social profiles & music pages",
     count: 523,
   },
@@ -40,7 +38,7 @@ const folders = [
     id: "forums",
     name: "Forums & BBS",
     icon: "💬",
-    color: "#00ff00",
+    color: "pink",
     desc: "Discussion boards & communities",
     count: 189,
   },
@@ -48,7 +46,7 @@ const folders = [
     id: "early-blogs",
     name: "Early Blogs",
     icon: "📝",
-    color: "#ff6600",
+    color: "orange",
     desc: "LiveJournal, Blogspot originals",
     count: 276,
   },
@@ -56,13 +54,13 @@ const folders = [
     id: "misc",
     name: "Miscellaneous",
     icon: "📦",
-    color: "#cc00ff",
+    color: "cyan",
     desc: "Uncategorized web artifacts",
     count: 134,
   },
 ];
 
-// Sample items for folders (mock data)
+// Sample items for folders
 const folderItems = {
   geocities: [
     {
@@ -142,67 +140,49 @@ const folderItems = {
   ],
 };
 
-// Retro folder icon component
-function FolderIcon({ folder, onClick, isSelected }) {
+// ATSV styled folder card
+function FolderCard({ folder, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`
-        group flex flex-col items-center p-4 rounded transition-all
-        ${isSelected ? "bg-blue-900/50" : "hover:bg-white/5"}
-      `}
+      className="group flex flex-col items-center p-6 transition-all hover-wiggle light-panel"
+      style={{ minWidth: "140px" }}
     >
-      {/* Folder graphic */}
+      {/* Folder icon */}
       <div
-        className="relative w-24 h-20 mb-2 transition-transform group-hover:scale-110"
+        className="w-20 h-16 mb-3 rounded flex items-center justify-center text-3xl transition-transform group-hover:scale-110"
         style={{
-          filter: `drop-shadow(0 0 10px ${folder.color}40)`,
+          background: `var(--accent-${folder.color})`,
+          border: "3px solid var(--outline-black)",
+          boxShadow: "3px 3px 0 var(--outline-black)",
         }}
       >
-        {/* Folder back */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-16 rounded-b"
-          style={{
-            background: folder.color,
-            border: `3px solid ${folder.color}`,
-            boxShadow: `inset -2px -2px 0 rgba(0,0,0,0.3)`,
-          }}
-        />
-        {/* Folder tab */}
-        <div
-          className="absolute top-2 left-0 w-10 h-4 rounded-t"
-          style={{
-            background: folder.color,
-            borderTop: `3px solid ${folder.color}`,
-            borderLeft: `3px solid ${folder.color}`,
-            borderRight: `3px solid ${folder.color}`,
-          }}
-        />
-        {/* Icon */}
-        <div className="absolute inset-0 flex items-center justify-center text-3xl pt-4">
-          {folder.icon}
-        </div>
+        {folder.icon}
       </div>
 
       {/* Label */}
       <span
-        className="text-center text-sm font-bold text-white group-hover:text-cyan-400 transition-colors"
-        style={{ fontFamily: "'VT323', monospace" }}
+        className="text-center font-bold spidey-font"
+        style={{ color: "var(--outline-black)" }}
       >
         {folder.name}
       </span>
-      <span className="text-xs text-gray-500">{folder.count} items</span>
+      <span
+        className="text-xs mt-1"
+        style={{ color: "var(--outline-black)", opacity: 0.6 }}
+      >
+        {folder.count} items
+      </span>
     </button>
   );
 }
 
 // Item row in CRT display
-function ItemRow({ item, index }) {
+function ItemRow({ item }) {
   const handleClick = () => {
     if (item.type === "link") {
-      window.open(item.url, "_blank");
+      window.open(item.url, "_blank", "noopener,noreferrer");
     } else {
-      // Download functionality - would connect to backend
       alert(`Download: ${item.name}\nSize: ${item.size}`);
     }
   };
@@ -210,89 +190,70 @@ function ItemRow({ item, index }) {
   return (
     <button
       onClick={handleClick}
-      className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-blue-800 transition-colors group"
+      className="w-full flex items-center gap-3 px-3 py-2 text-left transition-colors group"
       style={{
         fontFamily: "'VT323', monospace",
         borderBottom: "1px solid #333",
+        background: "transparent",
       }}
+      onMouseEnter={(e) =>
+        (e.currentTarget.style.background = "rgba(0,229,255,0.1)")
+      }
+      onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
     >
-      {/* Icon */}
       <span className="text-lg">{item.type === "link" ? "🔗" : "💾"}</span>
-
-      {/* Name */}
-      <span className="flex-1 text-cyan-400 group-hover:text-white truncate">
+      <span
+        className="flex-1 truncate"
+        style={{ color: "var(--phosphor-green)" }}
+      >
         {item.name}
       </span>
-
-      {/* Type badge */}
       <span
-        className={`text-xs px-2 py-0.5 rounded ${
-          item.type === "link"
-            ? "bg-green-900 text-green-400"
-            : "bg-purple-900 text-purple-400"
-        }`}
+        className="text-xs px-2 py-0.5 rounded"
+        style={{
+          background:
+            item.type === "link"
+              ? "var(--accent-cyan)"
+              : "var(--accent-magenta)",
+          color: item.type === "link" ? "var(--outline-black)" : "white",
+        }}
       >
         {item.type === "link" ? "OPEN" : item.size}
       </span>
-
-      {/* Year */}
-      <span className="text-gray-500 text-sm">{item.year}</span>
+      <span className="text-sm" style={{ color: "#666" }}>
+        {item.year}
+      </span>
     </button>
   );
 }
 
 function Explore() {
   const [selectedFolder, setSelectedFolder] = useState(null);
-  const [frameVariant, setFrameVariant] = useState("smooth");
 
   const currentItems = selectedFolder
     ? folderItems[selectedFolder.id] || []
     : [];
 
   return (
-    <div
-      className="min-h-screen relative"
-      style={{
-        background: "#1a0a2e",
-        fontFamily: "'VT323', 'Courier New', monospace",
-      }}
-    >
-      {/* Starfield background */}
-      <div className="fixed inset-0 z-0">
-        <Canvas>
-          <Stars
-            radius={100}
-            depth={50}
-            count={2000}
-            factor={4}
-            fade
-            speed={0.5}
-          />
-        </Canvas>
-      </div>
-
-      {/* Grid pattern overlay */}
-      <div
-        className="fixed inset-0 z-0 opacity-10 pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0z' fill='none' stroke='%2300ffcc' stroke-width='0.5'/%3E%3C/svg%3E")`,
-        }}
-      />
+    <main style={{ background: "var(--bg-cream)", minHeight: "100vh" }}>
+      {/* Glitch Header Bar */}
+      <div className="glitch-bar noise-bg" />
 
       <div className="relative z-10 pt-8 px-4 pb-16">
         {/* Header */}
         <div className="text-center mb-8">
           <h1
-            className="text-4xl md:text-6xl font-bold mb-2"
-            style={{
-              color: "#00ffcc",
-              textShadow: "0 0 10px #00ffcc, 0 0 20px #00ffcc",
-              fontFamily: "'Press Start 2P', monospace",
-            }}
+            className="text-4xl md:text-5xl font-bold mb-2 glitch-text spidey-font"
+            style={{ color: "var(--outline-black)" }}
           >
             📁 EXPLORE
           </h1>
-          <p style={{ color: "#ff00aa" }}>
+          <p
+            style={{
+              color: "var(--sub-heading-color)",
+              fontFamily: "'VT323', monospace",
+            }}
+          >
             {selectedFolder
               ? `Viewing: ${selectedFolder.name}`
               : "Select a folder to browse"}
@@ -300,16 +261,15 @@ function Explore() {
         </div>
 
         {/* Main content area */}
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           {!selectedFolder ? (
             /* Folder Grid */
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
               {folders.map((folder) => (
-                <FolderIcon
+                <FolderCard
                   key={folder.id}
                   folder={folder}
                   onClick={() => setSelectedFolder(folder)}
-                  isSelected={false}
                 />
               ))}
             </div>
@@ -319,19 +279,21 @@ function Explore() {
               {/* Back button */}
               <button
                 onClick={() => setSelectedFolder(null)}
-                className="mb-4 px-4 py-2 text-cyan-400 hover:text-white transition-colors flex items-center gap-2"
-                style={{ fontFamily: "'VT323', monospace" }}
+                className="mb-4 px-4 py-2 flex items-center gap-2 action-btn hover-wiggle"
+                style={{
+                  background: "var(--accent-yellow)",
+                  color: "var(--outline-black)",
+                  fontFamily: "'SpiderVerse', sans-serif",
+                }}
               >
                 <span>←</span>
                 <span>Back to folders</span>
               </button>
 
-              {/* CRT Monitor with content */}
+              {/* CRT Monitor */}
               <CRTMonitor
                 title={`${selectedFolder.name.toLowerCase()}.exe`}
-                variant={frameVariant}
-                showSwitcher={true}
-                onVariantChange={setFrameVariant}
+                variant="atsv"
               >
                 <div
                   className="min-h-[400px]"
@@ -339,18 +301,21 @@ function Explore() {
                 >
                   {/* Folder header */}
                   <div
-                    className="flex items-center gap-3 px-3 py-2"
+                    className="flex items-center gap-3 px-3 py-3"
                     style={{
-                      background: "#1a1a2a",
-                      borderBottom: "2px solid #333",
+                      background: "#111",
+                      borderBottom: "2px solid var(--accent-cyan)",
                     }}
                   >
                     <span className="text-2xl">{selectedFolder.icon}</span>
                     <div>
-                      <div className="text-white font-bold">
+                      <div
+                        className="font-bold spidey-font"
+                        style={{ color: "var(--phosphor-green)" }}
+                      >
                         {selectedFolder.name}
                       </div>
-                      <div className="text-xs text-gray-400">
+                      <div className="text-xs" style={{ color: "#666" }}>
                         {selectedFolder.desc}
                       </div>
                     </div>
@@ -359,26 +324,27 @@ function Explore() {
                   {/* Item list */}
                   <div className="max-h-[350px] overflow-y-auto">
                     {currentItems.length > 0 ? (
-                      currentItems.map((item, idx) => (
-                        <ItemRow key={item.id} item={item} index={idx} />
+                      currentItems.map((item) => (
+                        <ItemRow key={item.id} item={item} />
                       ))
                     ) : (
-                      <div className="text-center py-12 text-gray-500">
+                      <div
+                        className="text-center py-12"
+                        style={{ color: "#666" }}
+                      >
                         <span className="text-4xl block mb-4">📂</span>
                         <p>No items in this folder yet.</p>
-                        <p className="text-sm mt-2">
-                          Connect backend to load content.
-                        </p>
                       </div>
                     )}
                   </div>
 
                   {/* Status bar */}
                   <div
-                    className="flex justify-between items-center px-3 py-1 text-xs text-gray-500"
+                    className="flex justify-between items-center px-3 py-1 text-xs"
                     style={{
-                      background: "#1a1a2a",
-                      borderTop: "2px solid #333",
+                      background: "#111",
+                      borderTop: "2px solid var(--accent-cyan)",
+                      color: "#666",
                     }}
                   >
                     <span>🔗 = Open Link</span>
@@ -392,17 +358,16 @@ function Explore() {
         </div>
 
         {/* Instructions */}
-        <div className="max-w-2xl mx-auto mt-8 text-center text-sm text-gray-500">
-          <p>💡 Click a folder icon to browse archived content</p>
-          <p>🔗 Links open in a new tab • 💾 Downloads save to your device</p>
+        <div className="max-w-2xl mx-auto mt-8 text-center text-sm light-panel p-4">
+          <p style={{ color: "var(--outline-black)" }}>
+            💡 Click a folder icon to browse archived content
+          </p>
+          <p style={{ color: "var(--outline-black)", opacity: 0.7 }}>
+            🔗 Links open in a new tab • 💾 Downloads save to your device
+          </p>
         </div>
       </div>
-
-      {/* Font imports */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
-      `}</style>
-    </div>
+    </main>
   );
 }
 
